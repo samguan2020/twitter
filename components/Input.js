@@ -1,4 +1,4 @@
-import { PhotographIcon, EmojiHappyIcon } from "@heroicons/react/solid"
+import { PhotographIcon, EmojiHappyIcon } from "@heroicons/react/outline"
 
 export default function Input() {
   return (
