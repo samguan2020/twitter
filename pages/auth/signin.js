@@ -29,7 +29,6 @@ export default function signin({ providers }) {
           </div>
         ))}
       </div>
-
     </div>
   )
 }
