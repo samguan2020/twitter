@@ -1,8 +1,8 @@
-import { PhotographIcon, EmojiHappyIcon } from "@heroicons/react/outline"
+import { PhotographIcon, EmojiHappyIcon } from "@heroicons/react/outline";
 import { XIcon } from "@heroicons/react/solid";
 import { addDoc, collection, doc, serverTimestamp, updateDoc } from "firebase/firestore";
 import { getDownloadURL, ref, uploadString } from "firebase/storage";
-import { useSession, signOut } from "next-auth/react"
+import { useSession, signOut } from "next-auth/react";
 import { useRef, useState } from "react";
 import { db, storage } from "../firebase";
 
