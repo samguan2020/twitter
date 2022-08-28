@@ -40,9 +40,13 @@ export default function Post({ post }) {
 
   }
 
-  async function deletePost(){
-    deleteDoc(doc(db, "posts", post.id));
-    deleteObject(ref(storage, `posts/${post.id}/image`));
+  async function deletePost() {
+    if (window.confirm("Are you sure you want to delete this post?")) {
+      deleteDoc(doc(db, "posts", post.id));
+      if (post.data().image) {
+        deleteObject(ref(storage, `posts/${post.id}/image`));
+      }
+    }
   }
 
   return (
@@ -71,14 +75,16 @@ export default function Post({ post }) {
         <p className="text-gray-800 text-[15px] sm:text-[16px] mb-2">{post.data().text}</p>
 
         {/* post image */}
-        <img className="rounded-2xl mr-2" src={post.data().image} alt="image-img" />
+        {post?.data()?.image &&
+          <img className="rounded-2xl mr-2" src={post?.data()?.image} alt="image-img" />
+        }
 
 
         {/* icons */}
         <div className="flex justify-between text-gray-500 p-2">
           <ChatIcon className="h-9 w-9 hoverEffect p-2 hover:text-sky-500 hover:bg-sky-100" />
           {session?.user.uid === post?.data().id && (
-            <TrashIcon onClick = {deletePost} className="h-9 w-9 hoverEffect p-2 hover:text-red-600 hover:bg-red-100" />
+            <TrashIcon onClick={deletePost} className="h-9 w-9 hoverEffect p-2 hover:text-red-600 hover:bg-red-100" />
           )}
 
           <div className="flex items-center">
