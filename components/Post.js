@@ -7,11 +7,14 @@ import { db, storage } from "../firebase";
 import { useSession, signIn } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { deleteObject, ref } from "firebase/storage";
+import { modalState } from "../atom/modalAtom";
+import {useRecoilState} from "recoil"
 
 export default function Post({ post }) {
   const { data: session } = useSession();
   const [likes, setLikes] = useState([]);
   const [hasLiked, setHasliked] = useState(false);
+  const [open, setOpen] = useRecoilState(modalState);
 
   useEffect(() => {
     const unsubscribe = onSnapshot(
@@ -82,7 +85,7 @@ export default function Post({ post }) {
 
         {/* icons */}
         <div className="flex justify-between text-gray-500 p-2">
-          <ChatIcon className="h-9 w-9 hoverEffect p-2 hover:text-sky-500 hover:bg-sky-100" />
+          <ChatIcon onClick={()=>setOpen(!open)} className="h-9 w-9 hoverEffect p-2 hover:text-sky-500 hover:bg-sky-100" />
           {session?.user.uid === post?.data().id && (
             <TrashIcon onClick={deletePost} className="h-9 w-9 hoverEffect p-2 hover:text-red-600 hover:bg-red-100" />
           )}
