@@ -1,5 +1,4 @@
 import Head from 'next/head'
-import Image from 'next/image'
 import Sidebar from '../../components/Sidebar'
 import Widgets from '../../components/Widgets'
 import CommentModal from '../../components/CommentModal'
@@ -10,6 +9,7 @@ import { useEffect, useState } from 'react'
 import { collection, doc, onSnapshot, orderBy, query } from 'firebase/firestore'
 import { db } from '../../firebase'
 import Comment from '../../components/comment'
+import { AnimatePresence, motion } from "framer-motion";
 
 export default function PostPage({ newsResults, randomUsersResults }) {
   const router = useRouter();
@@ -61,14 +61,24 @@ export default function PostPage({ newsResults, randomUsersResults }) {
           <Post id={id} post={post} />
           {comments.length > 0 && (
             <div className="">
-              {comments.map((comment) => (
-                <Comment
-                  key={comment.id}
-                  commentId={comment.id}
-                  originalPostId={id}
-                  comment={comment.data()}
-                />
-              ))}
+              <AnimatePresence>
+                {comments.map((comment) => (
+                  <motion.div
+                    key={comment.id}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 1 }}
+                  >
+                    <Comment
+                      key={comment.id}
+                      commentId={comment.id}
+                      originalPostId={id}
+                      comment={comment.data()}
+                    />
+                  </motion.div>
+                ))}
+              </AnimatePresence>
             </div>
           )}
         </div>
